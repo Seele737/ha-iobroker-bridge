@@ -1,0 +1,99 @@
+{
+  "config": {
+    "flow_title": "{name}",
+    "step": {
+      "user": {
+        "title": "ioBroker-Bridge verbinden",
+        "description": "Verbindet Home Assistant mit dem ioBroker-Adapter **homeassistant-bridge** (ab Version 0.5.0). Es wird deine vorhandene MQTT-Verbindung genutzt – kein Passwort nötig.\n\nNormalerweise findet Home Assistant die Bridge von selbst. Hier trägst du sie nur von Hand ein, wenn du im Adapter ein anderes Basis-Topic eingestellt hast.",
+        "data": {
+          "base_topic": "Basis-Topic"
+        },
+        "data_description": {
+          "base_topic": "Steht im ioBroker-Adapter unter „Erweitert“ → „Basis-Topic“. Standard: iobroker-ha/0"
+        }
+      },
+      "confirm": {
+        "title": "ioBroker-Bridge gefunden",
+        "description": "Gefunden: ioBroker-Instanz **{instance}** (Adapter-Version {version}, Topic `{base}`).\n\nNach dem Einrichten legst du in der Integration fest, welche Home-Assistant-Geräte an ioBroker gesendet werden. Die Gruppe „Standard“ ist schon da."
+      }
+    },
+    "error": {
+      "invalid_topic": "Ungültiges Topic – nur Buchstaben, Ziffern, _ und - mit / getrennt, z. B. iobroker-ha/0",
+      "no_bridge": "Unter diesem Topic meldet sich keine ioBroker-Bridge. Läuft der Adapter homeassistant-bridge (ab 0.5.0) und ist er mit demselben Broker verbunden?"
+    },
+    "abort": {
+      "already_configured": "Diese ioBroker-Bridge ist schon eingerichtet.",
+      "mqtt_not_configured": "Bitte zuerst die MQTT-Integration in Home Assistant einrichten.",
+      "invalid_discovery_info": "Die Meldung der ioBroker-Bridge war unvollständig."
+    }
+  },
+  "config_subentries": {
+    "group": {
+      "entry_type": "Gruppe",
+      "initiate_flow": {
+        "user": "Gruppe hinzufügen",
+        "reconfigure": "Gruppe bearbeiten"
+      },
+      "step": {
+        "user": {
+          "title": "Gruppe hinzufügen",
+          "description": "Eine Gruppe legt fest, welche Home-Assistant-Geräte an ioBroker gesendet werden und wie oft. In ioBroker erscheinen sie unter homeassistant-bridge.0.ha.",
+          "data": {
+            "name": "Name der Gruppe",
+            "entities": "Entitäten",
+            "areas": "Ganze Bereiche (optional)",
+            "mode": "Wann senden",
+            "interval": "Intervall",
+            "control": "Steuerung aus ioBroker erlauben"
+          },
+          "data_description": {
+            "name": "Zum Sortieren. Steht in ioBroker beim jeweiligen Objekt.",
+            "entities": "Diese Entitäten werden an ioBroker gesendet. Nicht angeboten werden Entitäten, die aus ioBroker kommen (sonst entsteht eine Schleife), und Entitäten aus anderen Gruppen.",
+            "areas": "Alle sichtbaren Entitäten dieser Bereiche – auch solche, die später hinzukommen. Leer lassen, wenn du nur einzelne Entitäten möchtest.",
+            "mode": "Standard: sofort. „Höchstens alle …“ spart Last bei Werten, die sich ständig ändern (z. B. Leistung).",
+            "interval": "Nur für „höchstens alle …“ und „sofort + regelmäßig“. Standard: 60 s.",
+            "control": "Standard: an. Dann kann ioBroker diese Geräte schalten (z. B. Licht an, Rollladen auf). Aus = ioBroker zeigt die Werte nur an."
+          }
+        },
+        "reconfigure": {
+          "title": "Gruppe bearbeiten",
+          "description": "Änderungen gelten sofort nach dem Speichern. Entfernte Entitäten werden in ioBroker als „nicht mehr übertragen“ markiert.",
+          "data": {
+            "name": "Name der Gruppe",
+            "entities": "Entitäten",
+            "areas": "Ganze Bereiche (optional)",
+            "mode": "Wann senden",
+            "interval": "Intervall",
+            "control": "Steuerung aus ioBroker erlauben"
+          },
+          "data_description": {
+            "name": "Zum Sortieren. Steht in ioBroker beim jeweiligen Objekt.",
+            "entities": "Diese Entitäten werden an ioBroker gesendet. Nicht angeboten werden Entitäten, die aus ioBroker kommen (sonst entsteht eine Schleife), und Entitäten aus anderen Gruppen.",
+            "areas": "Alle sichtbaren Entitäten dieser Bereiche – auch solche, die später hinzukommen. Leer lassen, wenn du nur einzelne Entitäten möchtest.",
+            "mode": "Standard: sofort. „Höchstens alle …“ spart Last bei Werten, die sich ständig ändern (z. B. Leistung).",
+            "interval": "Nur für „höchstens alle …“ und „sofort + regelmäßig“. Standard: 60 s.",
+            "control": "Standard: an. Dann kann ioBroker diese Geräte schalten (z. B. Licht an, Rollladen auf). Aus = ioBroker zeigt die Werte nur an."
+          }
+        }
+      },
+      "error": {
+        "name_required": "Bitte einen Namen eingeben.",
+        "name_exists": "Eine Gruppe mit diesem Namen gibt es schon.",
+        "invalid_mode": "Ungültige Auswahl.",
+        "invalid_interval": "Bitte zwischen 1 und 86400 Sekunden."
+      },
+      "abort": {
+        "reconfigure_successful": "Gruppe gespeichert."
+      }
+    }
+  },
+  "selector": {
+    "mode": {
+      "options": {
+        "immediate": "Sofort bei jeder Änderung (Standard)",
+        "throttle": "Höchstens alle … Sekunden",
+        "combined": "Sofort + regelmäßig alle … Sekunden"
+      }
+    }
+  }
+}

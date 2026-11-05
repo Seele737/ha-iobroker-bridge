@@ -1,0 +1,99 @@
+{
+  "config": {
+    "flow_title": "{name}",
+    "step": {
+      "user": {
+        "title": "Connect ioBroker bridge",
+        "description": "Connects Home Assistant with the ioBroker adapter **homeassistant-bridge** (version 0.5.0 or newer). Your existing MQTT connection is used – no password needed.\n\nUsually Home Assistant finds the bridge by itself. Enter it here only if you changed the base topic in the adapter.",
+        "data": {
+          "base_topic": "Base topic"
+        },
+        "data_description": {
+          "base_topic": "See the ioBroker adapter, tab “Erweitert” → “Basis-Topic”. Default: iobroker-ha/0"
+        }
+      },
+      "confirm": {
+        "title": "ioBroker bridge found",
+        "description": "Found: ioBroker instance **{instance}** (adapter version {version}, topic `{base}`).\n\nAfter the setup you choose in the integration which Home Assistant devices are sent to ioBroker. The group “Standard” already exists."
+      }
+    },
+    "error": {
+      "invalid_topic": "Invalid topic – only letters, digits, _ and - separated by /, e.g. iobroker-ha/0",
+      "no_bridge": "No ioBroker bridge answers on this topic. Is the adapter homeassistant-bridge (0.5.0 or newer) running and connected to the same broker?"
+    },
+    "abort": {
+      "already_configured": "This ioBroker bridge is already set up.",
+      "mqtt_not_configured": "Please set up the MQTT integration of Home Assistant first.",
+      "invalid_discovery_info": "The message of the ioBroker bridge was incomplete."
+    }
+  },
+  "config_subentries": {
+    "group": {
+      "entry_type": "Group",
+      "initiate_flow": {
+        "user": "Add group",
+        "reconfigure": "Edit group"
+      },
+      "step": {
+        "user": {
+          "title": "Add group",
+          "description": "A group defines which Home Assistant devices are sent to ioBroker and how often. In ioBroker they appear below homeassistant-bridge.0.ha.",
+          "data": {
+            "name": "Group name",
+            "entities": "Entities",
+            "areas": "Whole areas (optional)",
+            "mode": "When to send",
+            "interval": "Interval",
+            "control": "Allow control from ioBroker"
+          },
+          "data_description": {
+            "name": "For sorting. Shown in ioBroker for each object.",
+            "entities": "These entities are sent to ioBroker. Not offered: entities that come from ioBroker (that would create a loop) and entities of other groups.",
+            "areas": "All visible entities of these areas – including ones added later. Leave empty if you only want single entities.",
+            "mode": "Default: immediately. “At most every …” saves load for values that change all the time (e.g. power).",
+            "interval": "Only for “at most every …” and “immediately + regularly”. Default: 60 s.",
+            "control": "Default: on. ioBroker can then switch these devices (e.g. light on, cover up). Off = ioBroker only shows the values."
+          }
+        },
+        "reconfigure": {
+          "title": "Edit group",
+          "description": "Changes apply right after saving. Removed entities are marked as “no longer transferred” in ioBroker.",
+          "data": {
+            "name": "Group name",
+            "entities": "Entities",
+            "areas": "Whole areas (optional)",
+            "mode": "When to send",
+            "interval": "Interval",
+            "control": "Allow control from ioBroker"
+          },
+          "data_description": {
+            "name": "For sorting. Shown in ioBroker for each object.",
+            "entities": "These entities are sent to ioBroker. Not offered: entities that come from ioBroker (that would create a loop) and entities of other groups.",
+            "areas": "All visible entities of these areas – including ones added later. Leave empty if you only want single entities.",
+            "mode": "Default: immediately. “At most every …” saves load for values that change all the time (e.g. power).",
+            "interval": "Only for “at most every …” and “immediately + regularly”. Default: 60 s.",
+            "control": "Default: on. ioBroker can then switch these devices (e.g. light on, cover up). Off = ioBroker only shows the values."
+          }
+        }
+      },
+      "error": {
+        "name_required": "Please enter a name.",
+        "name_exists": "A group with this name already exists.",
+        "invalid_mode": "Invalid choice.",
+        "invalid_interval": "Please use 1 to 86400 seconds."
+      },
+      "abort": {
+        "reconfigure_successful": "Group saved."
+      }
+    }
+  },
+  "selector": {
+    "mode": {
+      "options": {
+        "immediate": "Immediately on every change (default)",
+        "throttle": "At most every … seconds",
+        "combined": "Immediately + regularly every … seconds"
+      }
+    }
+  }
+}

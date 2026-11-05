@@ -1,0 +1,14 @@
+{
+  "domain": "iobroker_bridge",
+  "name": "ioBroker Bridge",
+  "codeowners": ["@Seele737"],
+  "config_flow": true,
+  "dependencies": ["mqtt", "http", "frontend", "websocket_api"],
+  "documentation": "https://github.com/Seele737/ha-iobroker-bridge",
+  "integration_type": "hub",
+  "iot_class": "local_push",
+  "issue_tracker": "https://github.com/Seele737/ha-iobroker-bridge/issues",
+  "mqtt": ["iobroker-ha/+/bridge/info"],
+  "requirements": [],
+  "version": "0.1.0"
+}
